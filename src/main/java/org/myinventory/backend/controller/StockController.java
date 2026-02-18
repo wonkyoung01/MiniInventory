@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Tag(name = "Stock API", description = "재고 관리 API")
@@ -126,10 +127,12 @@ public class StockController {
                             null
                     ));
         }
-
     }
 
-
-
-
+    @GetMapping("/api/alerts/changes")
+    public Map<String, Object> hasChanges(@RequestParam int lastId) {
+        var res = stockHistoryRepository.findTop1ByOrderByCreateDateDesc(); // select max(id) ...
+        boolean changed = res.getId() > lastId;
+        return Map.of("changed", changed, "latestId", res.getId());
+    }
 }

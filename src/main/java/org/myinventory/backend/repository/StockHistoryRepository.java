@@ -20,4 +20,6 @@ public interface StockHistoryRepository extends JpaRepository<StockHistory, Inte
     @EntityGraph(attributePaths = {"item"})
     StockHistory findTop1ByOrderByCreateDateDesc();
 
+
+
 }

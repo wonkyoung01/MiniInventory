@@ -1,7 +1,9 @@
 package org.myinventory.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.myinventory.backend.entity.Item;
 import org.myinventory.backend.repository.ItemRepository;
+import org.myinventory.backend.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,17 +19,20 @@ public class ItemController {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    StockService stockService;
+
     @GetMapping("/api/items")
     public List<Item> getItems(){
         return itemRepository.findAll();
     }
-
+    @Operation(summary = "제품 등록", description = "새로운 제품 등록합니다.")
     @PostMapping("/api/item/save")
     public ResponseEntity<Integer> Save(@RequestBody Item item){
 
         try{
-            Item saveitem = itemRepository.save(item);
-            return ResponseEntity.ok(saveitem.getId());
+           Item saveItem = stockService.saveNeItemAndCreateStockHistory(item);
+            return ResponseEntity.ok(saveItem.getId());
         }catch (Exception e)
         {
             throw new RuntimeException("사용자 저장 중 오류 발생"+e.getMessage() );

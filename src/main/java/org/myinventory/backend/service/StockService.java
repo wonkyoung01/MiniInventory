@@ -1,12 +1,15 @@
 package org.myinventory.backend.service;
 
 import jakarta.transaction.Transactional;
+import org.aspectj.weaver.patterns.ExactAnnotationTypePattern;
 import org.myinventory.backend.entity.Item;
 import org.myinventory.backend.entity.StockHistory;
 import org.myinventory.backend.repository.ItemRepository;
 import org.myinventory.backend.repository.MemberRepository;
 import org.myinventory.backend.repository.StockHistoryRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class StockService {
@@ -41,6 +44,32 @@ public class StockService {
             throw new RuntimeException("제품 재고 변경 중 오류 발생."+e.getMessage());
         }
     }
+
+    public Item saveNeItemAndCreateStockHistory(Item item)
+    {
+        try{
+
+            // 1. 새로운 제품 저장
+            Item saveitem = itemRepository.save(item);
+            //2. 재고 이력 데이터 생성;
+            StockHistory stockhistoryitem = new StockHistory();
+            stockhistoryitem.setItemId(saveitem.getId());
+            stockhistoryitem.setQty(saveitem.getStock());
+            stockhistoryitem.setType("in");
+            stockhistoryitem.setCreateDate(new Date());
+
+            stockHistoryRepository.save(stockhistoryitem);
+
+            return saveitem;
+        }catch (Exception e)
+        {
+            throw new RuntimeException("제품 생성 중 오류 발생."+e.getMessage());
+        }
+
+
+
+    }
+
 
 
 
