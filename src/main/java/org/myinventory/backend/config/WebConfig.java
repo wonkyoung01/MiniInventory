@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer{
 
 
-    //✔ BackendApplication.java가 있는 패키지 하위에 만들어야 함
+    //✔ BackendApplication.java가 있는 패키지 하위에 만들어야 함stock
     //👉 그래야 Component Scan에 잡힘
     @Override
     public void addCorsMappings(CorsRegistry registry) {

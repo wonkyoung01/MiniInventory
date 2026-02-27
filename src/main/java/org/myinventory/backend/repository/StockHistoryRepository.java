@@ -14,6 +14,7 @@ public interface StockHistoryRepository extends JpaRepository<StockHistory, Inte
     @Override
     @EntityGraph(attributePaths = {"item"})
     List<StockHistory> findAll();
+
     @EntityGraph(attributePaths = {"item"})
     List<StockHistory> findByItemIdOrderByCreateDateDesc(Integer itemId);
 

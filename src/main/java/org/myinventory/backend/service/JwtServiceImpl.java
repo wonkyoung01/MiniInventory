@@ -20,7 +20,7 @@ public class JwtServiceImpl implements JwtService {
 
         Date now = new Date();
         Date expTime = new Date();
-        expTime.setTime(expTime.getTime() + 1000 * 60 * 5);
+        expTime.setTime(expTime.getTime() + 1000 * 60 * 20);
         SecretKey keyBytes = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
 
